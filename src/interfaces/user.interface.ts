@@ -3,4 +3,11 @@ interface User {
   class: string;
 }
 
-export default User;
+interface UserDB extends User {
+  id: number;
+}
+
+export {
+  User,
+  UserDB,
+};
