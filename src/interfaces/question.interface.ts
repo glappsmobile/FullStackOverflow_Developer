@@ -5,11 +5,16 @@ interface Question {
   tags: string;
 }
 
-interface QuestionDB {
+interface QuestionDB extends Question {
+  submitedAt: string;
+}
+
+interface QuestionId {
   id: number;
 }
 
 export {
   Question,
+  QuestionId,
   QuestionDB,
 };

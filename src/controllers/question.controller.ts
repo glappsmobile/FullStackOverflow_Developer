@@ -32,6 +32,28 @@ const createQuestion = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
+const findQuestionById = async (req: Request, res: Response, next: NextFunction)
+  : Promise<AppResponse> => {
+  if (questionSchema.findQuestionById.validate(req.params).error) {
+    return res.sendStatus(statusCode.BAD_REQUEST);
+  }
+
+  const { id } = req.params;
+
+  try {
+    const createdQuestion = await questionService
+      .findQuestionById(Number(id));
+
+    return res.send(createdQuestion);
+  } catch (error) {
+    if (error.name === 'QuestionError') {
+      return res.status(statusCode.NOT_FOUND).send(error.message);
+    }
+
+    next(error);
+  }
+};
 export {
   createQuestion,
+  findQuestionById,
 };

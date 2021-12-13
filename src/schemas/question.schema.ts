@@ -7,6 +7,11 @@ const createQuestion = joi.object({
   tags: joi.string().required(),
 });
 
+const findQuestionById = joi.object({
+  id: joi.number().required(),
+});
+
 export {
   createQuestion,
+  findQuestionById,
 };
