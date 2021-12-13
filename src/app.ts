@@ -14,7 +14,7 @@ app.get('/status', async (req: Request, res: Response) => {
 });
 
 app.use('/users', usersRouter);
-app.use('/question', questionRouter);
+app.use('/questions', questionRouter);
 
 app.use(serverError);
 

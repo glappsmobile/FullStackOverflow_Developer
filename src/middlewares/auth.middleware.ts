@@ -1,27 +1,32 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { statusCode } from '../enums/httpStatus';
+import * as userRepository from '../repositories/user.repository';
 
-const auth = async (req, res, next) => {
+const auth = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization || '';
   const token = authorization.split('Bearer ')[1];
 
   if (!token) {
-    return res.sendStatus(401);
+    return res.sendStatus(statusCode.UNAUTHORIZED);
   }
 
   let user;
 
   try {
-    user = jwt.verify(token, process.env.JWT_SECRET);
+    user = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
   } catch (err) {
-    return res.sendStatus(401);
+    return res.sendStatus(statusCode.UNAUTHORIZED);
   }
 
   if (!user) {
-    return res.sendStatus(401);
+    return res.sendStatus(statusCode.UNAUTHORIZED);
   }
 
-  res.locals.user = user;
-  return next();
+  const fullUser = await userRepository.findById(user.id);
+  res.locals.user = fullUser;
+
+  next();
 };
 
 export default auth;
