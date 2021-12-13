@@ -3,7 +3,7 @@ import { UserDB } from '../interfaces/user.interface';
 
 const create = async (name: string, userClass: string): Promise<UserDB> => {
   const userQuery = await connection.query(
-    'INSERT INTO "users" ("name", "class") VALUES ($1, $2) RETURNING *;',
+    'INSERT INTO "users" ("namea", "class") VALUES ($1, $2) RETURNING *;',
     [name, userClass],
   );
 
