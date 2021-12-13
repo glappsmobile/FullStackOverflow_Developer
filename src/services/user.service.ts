@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import * as userRepository from '../repositories/users.repository';
+import * as userRepository from '../repositories/user.repository';
 import * as sessionRepository from '../repositories/session.repository';
 import { Session } from '../interfaces/session.interface';
 import UserError from '../errors/UserError';

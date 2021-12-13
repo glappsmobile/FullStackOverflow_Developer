@@ -14,6 +14,16 @@ const create = async (name: string, userClass: string): Promise<UserDB> => {
   return userQuery.rows[0];
 };
 
+const findById = async (id: number): Promise<UserDB> => {
+  const userQuery = await connection.query(
+    'SELECT * FROM "users" WHERE id = $1 LIMIT 1;',
+    [id],
+  );
+
+  return userQuery.rows[0];
+};
+
 export {
   create,
+  findById,
 };

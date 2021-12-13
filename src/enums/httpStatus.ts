@@ -5,6 +5,7 @@ const statusCode = Object.freeze({
   NOT_FOUND: 404,
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
+  UNAUTHORIZED: 401,
 });
 
 export {
