@@ -14,12 +14,7 @@
     },
     "ignorePatterns": ["*.test.js"],
     "rules": {
-      "import/extensions": [
-        "error",
-        {
-          "js": "ignorePackages"
-        }
-      ],
+      "import/extensions": "off",
       "import/prefer-default-export": "off",
       "consistent-return": "off",
       "import/no-unresolved": "off"
