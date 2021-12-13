@@ -1,5 +1,5 @@
 import connection from '../database/connection';
-import { Question, QuestionId } from '../interfaces/question.interface';
+import { Question, QuestionId, AnsweredQuestionDB } from '../interfaces/question.interface';
 import { Answer, AnswerDB } from '../interfaces/answer.interface';
 import * as objectHelper from './helpers/objectHelper';
 
@@ -42,7 +42,7 @@ const createAnswer = async (answerParams: Answer)
   return answerQuery.rows[0];
 };
 
-const findQuestionById = async (id: number) => {
+const findQuestionById = async (id: number): Promise<AnsweredQuestionDB> => {
   const questionQuery = await connection.query(
     `SELECT 
       questions.question, questions.student, questions.class, questions.tags, questions.submited_at as "submitedAt",
