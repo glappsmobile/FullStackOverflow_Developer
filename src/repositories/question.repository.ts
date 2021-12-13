@@ -1,5 +1,6 @@
 import connection from '../database/connection';
 import { Question, QuestionId } from '../interfaces/question.interface';
+import { Answer, AnswerDB } from '../interfaces/answer.interface';
 
 const createQuestion = async (questionParams: Question): Promise<QuestionId> => {
   const {
@@ -18,6 +19,26 @@ const createQuestion = async (questionParams: Question): Promise<QuestionId> => 
   }
 
   return questionQuery.rows[0];
+};
+
+const createAnswer = async (answerParams: Answer)
+  : Promise<AnswerDB> => {
+  const {
+    questionId,
+    userId,
+    answer,
+  } = answerParams;
+
+  const answerQuery = await connection.query(
+    'INSERT INTO "questions_answers" ("question_id", "user_id", "answer") VALUES ($1, $2, $3) RETURNING *;',
+    [questionId, userId, answer],
+  );
+
+  if (!answerQuery.rows[0]) {
+    return null;
+  }
+
+  return answerQuery.rows[0];
 };
 
 const findQuestionById = async (id: number) => {
@@ -41,4 +62,5 @@ const findQuestionById = async (id: number) => {
 export {
   createQuestion,
   findQuestionById,
+  createAnswer,
 };

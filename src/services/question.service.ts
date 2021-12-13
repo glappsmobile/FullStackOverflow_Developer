@@ -1,6 +1,7 @@
 import QuestionError from '../errors/QuestionError';
 import * as questionRepository from '../repositories/question.repository';
 import { Question, QuestionId } from '../interfaces/question.interface';
+import { Answer } from '../interfaces/answer.interface';
 
 const createQuestion = async (questionParams: Question): Promise<QuestionId> => {
   const question = await questionRepository.createQuestion(questionParams);
@@ -10,6 +11,16 @@ const createQuestion = async (questionParams: Question): Promise<QuestionId> => 
   }
 
   return question;
+};
+
+const createAnswer = async (answerParams: Answer): Promise<boolean> => {
+  const answer = await questionRepository.createAnswer(answerParams);
+
+  if (answer === null) {
+    throw new QuestionError('An unexpected error occurred.');
+  }
+
+  return true;
 };
 
 const findQuestionById = async (id: number) => {
@@ -25,4 +36,5 @@ const findQuestionById = async (id: number) => {
 export {
   createQuestion,
   findQuestionById,
+  createAnswer,
 };

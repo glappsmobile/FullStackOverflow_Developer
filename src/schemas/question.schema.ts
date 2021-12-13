@@ -7,6 +7,14 @@ const createQuestion = joi.object({
   tags: joi.string().required(),
 });
 
+const createAnswerBody = joi.object({
+  answer: joi.string().required(),
+});
+
+const createAnswerParam = joi.object({
+  id: joi.number().required(),
+});
+
 const findQuestionById = joi.object({
   id: joi.number().required(),
 });
@@ -14,4 +22,6 @@ const findQuestionById = joi.object({
 export {
   createQuestion,
   findQuestionById,
+  createAnswerBody,
+  createAnswerParam,
 };

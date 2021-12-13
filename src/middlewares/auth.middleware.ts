@@ -24,6 +24,11 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const fullUser = await userRepository.findById(user.id);
+
+  if (!fullUser) {
+    return res.sendStatus(statusCode.UNAUTHORIZED);
+  }
+
   res.locals.user = fullUser;
 
   next();

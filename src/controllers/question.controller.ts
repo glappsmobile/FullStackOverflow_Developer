@@ -32,6 +32,45 @@ const createQuestion = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
+const createAnswer = async (req: Request, res: Response, next: NextFunction)
+  : Promise<AppResponse> => {
+  if (questionSchema.createAnswerBody.validate(req.body).error) {
+    console.log('oi');
+    // console.log(questionSchema.createAnswerBody.validate(req.body).error);
+    return res.sendStatus(statusCode.BAD_REQUEST);
+  }
+
+  if (questionSchema.createAnswerParam.validate(req.params).error) {
+    console.log('dasdi');
+
+    // console.log(questionSchema.createAnswerParam.validate(req.params).error);
+
+    return res.sendStatus(statusCode.BAD_REQUEST);
+  }
+
+  console.log(res.locals);
+  const questionId = Number(req.params.id);
+  const userId = res.locals.user.id;
+  const { answer } = req.body;
+
+  try {
+    await questionService
+      .createAnswer({
+        questionId,
+        userId,
+        answer,
+      });
+
+    return res.sendStatus(statusCode.OK);
+  } catch (error) {
+    if (error.name === 'QuestionError') {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send(error.message);
+    }
+
+    next(error);
+  }
+};
+
 const findQuestionById = async (req: Request, res: Response, next: NextFunction)
   : Promise<AppResponse> => {
   if (questionSchema.findQuestionById.validate(req.params).error) {
@@ -55,5 +94,6 @@ const findQuestionById = async (req: Request, res: Response, next: NextFunction)
 };
 export {
   createQuestion,
+  createAnswer,
   findQuestionById,
 };
