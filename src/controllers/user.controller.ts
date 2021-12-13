@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import * as userService from '../services/user.service';
 import { statusCode } from '../enums/httpStatus';
 import * as userSchema from '../schemas/user.schema';
+import { AppResponse } from '../interfaces/appResponse.interface';
 
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
+const createUser = async (req: Request, res: Response, next: NextFunction):Promise<AppResponse> => {
   if (userSchema.createUser.validate(req.body).error) {
     return res.sendStatus(statusCode.BAD_REQUEST);
   }
