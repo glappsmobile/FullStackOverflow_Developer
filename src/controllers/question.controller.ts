@@ -35,20 +35,13 @@ const createQuestion = async (req: Request, res: Response, next: NextFunction)
 const createAnswer = async (req: Request, res: Response, next: NextFunction)
   : Promise<AppResponse> => {
   if (questionSchema.createAnswerBody.validate(req.body).error) {
-    console.log('oi');
-    // console.log(questionSchema.createAnswerBody.validate(req.body).error);
     return res.sendStatus(statusCode.BAD_REQUEST);
   }
 
   if (questionSchema.createAnswerParam.validate(req.params).error) {
-    console.log('dasdi');
-
-    // console.log(questionSchema.createAnswerParam.validate(req.params).error);
-
     return res.sendStatus(statusCode.BAD_REQUEST);
   }
 
-  console.log(res.locals);
   const questionId = Number(req.params.id);
   const userId = res.locals.user.id;
   const { answer } = req.body;
