@@ -60,6 +60,10 @@ const findQuestionById = async (id: number) => {
     [id],
   );
 
+  if (!questionQuery.rows[0]) {
+    return null;
+  }
+
   const question = objectHelper.removeNullKeys(questionQuery.rows[0]);
 
   return question;
