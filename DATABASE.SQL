@@ -7,21 +7,17 @@ CREATE TABLE "sessions" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "questions" (
 	"id" serial NOT NULL,
 	"question" TEXT NOT NULL,
-	"user_id" integer NOT NULL,
+	"student" TEXT NOT NULL,
+	"class" TEXT NOT NULL,
 	"tags" TEXT NOT NULL,
 	"submited_at" timestamp with time zone NOT NULL DEFAULT 'now()',
-	"points" integer NOT NULL DEFAULT 0,
 	CONSTRAINT "questions_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "questions_answers" (
 	"id" serial NOT NULL,
@@ -34,8 +30,6 @@ CREATE TABLE "questions_answers" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"name" varchar(255) NOT NULL,
@@ -45,11 +39,6 @@ CREATE TABLE "users" (
   OIDS=FALSE
 );
 
-
-
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
-
-ALTER TABLE "questions" ADD CONSTRAINT "questions_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
-
 ALTER TABLE "questions_answers" ADD CONSTRAINT "questions_answers_fk0" FOREIGN KEY ("question_id") REFERENCES "questions"("id");
 ALTER TABLE "questions_answers" ADD CONSTRAINT "questions_answers_fk1" FOREIGN KEY ("user_id") REFERENCES "users"("id");

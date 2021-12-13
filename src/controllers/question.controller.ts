@@ -1,26 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
-/// import { statusCode } from '../enums/httpStatus';
+import { statusCode } from '../enums/httpStatus';
 import { AppResponse } from '../interfaces/appResponse.interface';
+import * as questionSchema from '../schemas/question.schema';
+import * as questionService from '../services/question.service';
 
 const createQuestion = async (req: Request, res: Response, next: NextFunction)
   : Promise<AppResponse> => {
-  /* if (userSchema.createUser.validate(req.body).error) {
+  if (questionSchema.createQuestion.validate(req.body).error) {
     return res.sendStatus(statusCode.BAD_REQUEST);
   }
 
-  const { name } = req.body;
-  const userClass = req.body.class;* */
+  const { question, student, tags } = req.body;
+  const userClass = req.body.class;
 
   try {
-    return res.send(res.locals);
+    const createdQuestion = await questionService
+      .createQuestion({
+        question,
+        student,
+        class: userClass,
+        tags,
+      });
+
+    return res.send(createdQuestion);
   } catch (error) {
-  /*  if (error.name === 'UserError') {
+    if (error.name === 'QuestionError') {
       return res.status(statusCode.INTERNAL_SERVER_ERROR).send(error.message);
     }
-
-    if (error.name === 'SessionError') {
-      return res.status(statusCode.INTERNAL_SERVER_ERROR).send(error.message);
-    } */
 
     next(error);
   }
