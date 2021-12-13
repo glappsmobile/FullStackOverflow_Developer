@@ -8,7 +8,7 @@ import SessionError from '../errors/SessionError';
 const createUser = async (name: string, userClass: string): Promise<Session> => {
   const user = await userRepository.create(name, userClass);
 
-  if (user) {
+  if (user === null) {
     throw new UserError('An unexpected error occurred.');
   }
 

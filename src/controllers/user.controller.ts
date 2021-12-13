@@ -1,8 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import * as userService from '../services/user.service';
 import { statusCode } from '../enums/httpStatus';
+import * as userSchema from '../schemas/user.schema';
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  if (userSchema.createUser.validate(req.body).error) {
+    return res.sendStatus(statusCode.BAD_REQUEST);
+  }
+
   const { name } = req.body;
   const userClass = req.body.class;
 
