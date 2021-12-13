@@ -15,7 +15,6 @@ const create = async (name: string, userClass: string): Promise<UserDB> => {
 };
 
 const findById = async (id: number): Promise<UserDB> => {
-  console.log(id);
   const userQuery = await connection.query(
     'SELECT * FROM "users" WHERE id = $1 LIMIT 1;',
     [id],
