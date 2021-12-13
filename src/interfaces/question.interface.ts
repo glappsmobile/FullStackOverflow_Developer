@@ -9,6 +9,10 @@ interface QuestionDB extends Question {
   submitedAt: string;
 }
 
+interface QuestionWithIdDB extends QuestionDB {
+  id: number;
+}
+
 interface AnsweredQuestionDB extends QuestionDB {
   answered: boolean;
   answer?: string;
@@ -25,4 +29,5 @@ export {
   QuestionId,
   QuestionDB,
   AnsweredQuestionDB,
+  QuestionWithIdDB,
 };

@@ -73,10 +73,25 @@ const findQuestionById = async (req: Request, res: Response, next: NextFunction)
   const { id } = req.params;
 
   try {
-    const createdQuestion = await questionService
+    const question = await questionService
       .findQuestionById(Number(id));
 
-    return res.send(createdQuestion);
+    return res.send(question);
+  } catch (error) {
+    if (error.name === 'QuestionError') {
+      return res.status(statusCode.NOT_FOUND).send(error.message);
+    }
+
+    next(error);
+  }
+};
+
+const findNonAnsweredQuestions = async (req: Request, res: Response, next: NextFunction)
+  : Promise<AppResponse> => {
+  try {
+    const questions = await questionService.findNonAnsweredQuestions();
+
+    return res.send(questions);
   } catch (error) {
     if (error.name === 'QuestionError') {
       return res.status(statusCode.NOT_FOUND).send(error.message);
@@ -89,4 +104,5 @@ export {
   createQuestion,
   createAnswer,
   findQuestionById,
+  findNonAnsweredQuestions,
 };

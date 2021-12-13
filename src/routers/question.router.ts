@@ -5,6 +5,7 @@ import auth from '../middlewares/auth.middleware';
 const router = Router();
 
 router.post('', questionController.createQuestion);
+router.get('', questionController.findNonAnsweredQuestions);
 router.post('/:id', auth, questionController.createAnswer);
 router.get('/:id', questionController.findQuestionById);
 

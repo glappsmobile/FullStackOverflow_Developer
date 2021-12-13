@@ -33,8 +33,19 @@ const findQuestionById = async (id: number) => {
   return question;
 };
 
+const findNonAnsweredQuestions = async () => {
+  const questions = await questionRepository.findNonAnsweredQuestions();
+
+  if (!questions) {
+    throw new QuestionError('No questions were found.');
+  }
+
+  return questions;
+};
+
 export {
   createQuestion,
   findQuestionById,
   createAnswer,
+  findNonAnsweredQuestions,
 };

@@ -1,5 +1,7 @@
 import connection from '../database/connection';
-import { Question, QuestionId, AnsweredQuestionDB } from '../interfaces/question.interface';
+import {
+  Question, QuestionId, AnsweredQuestionDB, QuestionWithIdDB,
+} from '../interfaces/question.interface';
 import { Answer, AnswerDB } from '../interfaces/answer.interface';
 import * as objectHelper from './helpers/objectHelper';
 
@@ -69,8 +71,30 @@ const findQuestionById = async (id: number): Promise<AnsweredQuestionDB> => {
   return question;
 };
 
+const findNonAnsweredQuestions = async (): Promise<QuestionWithIdDB[]> => {
+  const questionQuery = await connection.query(
+    `SELECT
+      questions.id, questions.question, questions.student, questions.class, questions.submited_at AS "submitedAt"
+    FROM questions
+    WHERE NOT EXISTS (
+      SELECT
+      FROM questions_answers
+      WHERE questions_answers.question_id = questions.id
+    )
+    LIMIT 1000;
+    `,
+  );
+
+  if (questionQuery.rowCount === 0) {
+    return null;
+  }
+
+  return questionQuery.rows;
+};
+
 export {
   createQuestion,
   findQuestionById,
   createAnswer,
+  findNonAnsweredQuestions,
 };
